@@ -5,6 +5,9 @@ from time import sleep
 from argparse import ArgumentParser
 from sys import exit
 import customtkinter as ctk
+from threading import Thread    # For threading the serial listener
+
+# TODO: Implement threading to keep the GUI responsive during serial listening
 
 
 # Configuration
@@ -40,11 +43,10 @@ def button_callback():
         return
     else:
         UpdateStatus("Listening for data...", "transparent")
-    sleep(1)
-    try:
-        listen_serial(port.get())
-    except SerialException as e:
-        print(f"Serial error: {e}")
+        try:
+            listen_serial(port.get())
+        except SerialException as e:
+            print(f"Serial error: {e}")
 
 def UpdateStatus(message: str, color: str = "transparent"):
     status_label.configure(text=f"Status: {message}", fg_color=color)
@@ -161,7 +163,6 @@ Charging Status:    {charging_status_type}
 
 def listen_serial(serial_port, baud_rate=BAUD_RATE):
     #print(f"Opening serial port {serial_port} at {baud_rate} baud...")
-    UpdateStatus("Listening for data...", "transparent")
     try:
         with Serial(serial_port, baud_rate, timeout=1) as ser:
             #print("Listening for data... Press Ctrl+C to stop.\n")
