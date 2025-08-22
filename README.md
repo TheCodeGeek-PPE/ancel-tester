@@ -21,7 +21,7 @@ Official Ancel product page: [https://www.ancel.com/products/ancel-ba101](https:
 ## How to use
 
 1. Connect Ancel BA101 via USB cable to PC.
-2. Execute the python script `ancel_data_print_app` and select the COM port from the combobox.
+2. Execute the Python script `ancel_data_print_app` and select the COM port from the combobox.
 3. Click Connect
 4. The script will wait for data to be received.
 5. On the Ancel BA101 tester, go to Print Data and press Enter.
@@ -56,4 +56,5 @@ The data format specification was not provided by Ancel, but was manually revers
 | 26 | 00 0C | 12 | Ripple (mV) |
 | 28 | 01 | LOW | Charging status<br>00: NO OUTPUT<br>01: LOW<br>02: NORMAL<br>03: HIGH |
 | 29 | FE 7F | - | Final marker (?) |
+
 
