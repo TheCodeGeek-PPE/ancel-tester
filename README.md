@@ -33,7 +33,8 @@ Example:
 
 
 ## Known Bugs
-The status label doesn't properly indicate that the app is connected to the BA101 even when it is. Continue to select *Print Data* on the device, and the data will transfer.
+- The status label doesn't properly indicate that the app is connected to the BA101 even when it is. Continue to select *Print Data* on the device, and the data will transfer.
+  I think this is because the serial listener is tying things up so that the interface can't update.
 
 ## Serial data format specification
 
@@ -59,6 +60,7 @@ The data format specification was not provided by Ancel, but was manually revers
 | 26 | 00 0C | 12 | Ripple (mV) |
 | 28 | 01 | LOW | Charging status<br>00: NO OUTPUT<br>01: LOW<br>02: NORMAL<br>03: HIGH |
 | 29 | FE 7F | - | Final marker (?) |
+
 
 
 
