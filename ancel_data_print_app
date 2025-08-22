@@ -32,16 +32,22 @@ def CenterWindowToDisplay(Screen: ctk, width: int, height: int, scale_factor: fl
     y = int(((screen_height/2) - (height/1.5)) * scale_factor)
     return f"{width}x{height}+{x}+{y}"
 
+# Handle the button press
 def button_callback():
+    # If nothing is connected show error message
     if port.get() == "Reconnect BA101":
-        status_label.configure(text="Status: Error - Please connect the BA101 and restart the app.", fg_color="red")
+        UpdateStatus("Error - Please connect the BA101 and restart the app.", "red")
         return
-    status_label.configure(text="Status: Listening for data...", fg_color="transparent")
+    else:
+        UpdateStatus("Listening for data...", "transparent")
     sleep(1)
     try:
         listen_serial(port.get())
     except SerialException as e:
         print(f"Serial error: {e}")
+
+def UpdateStatus(message: str, color: str = "transparent"):
+    status_label.configure(text=f"Status: {message}", fg_color=color)
 
 # Create the main window
 app = ctk.CTk()
@@ -154,7 +160,8 @@ Charging Status:    {charging_status_type}
 
 
 def listen_serial(serial_port, baud_rate=BAUD_RATE):
-    print(f"Opening serial port {serial_port} at {baud_rate} baud...")
+    #print(f"Opening serial port {serial_port} at {baud_rate} baud...")
+    UpdateStatus("Listening for data...", "transparent")
     try:
         with Serial(serial_port, baud_rate, timeout=1) as ser:
             #print("Listening for data... Press Ctrl+C to stop.\n")
@@ -167,7 +174,7 @@ def listen_serial(serial_port, baud_rate=BAUD_RATE):
                     # Update the display with parsed data
                     display.delete("1.0", ctk.END)
                     display.insert(ctk.END, parse_battery_data(data))
-                    status_label.configure(text="Status: Data received successfully.", fg_color="green")
+                    UpdateStatus("Data received successfully.", "green")
     except SerialException as e:
         print(f"Serial error: {e}")
 
