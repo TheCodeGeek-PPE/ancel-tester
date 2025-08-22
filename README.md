@@ -11,7 +11,7 @@ It can be run directly on Windows and Linux (not tested).
 Read the Ancel BA101 manual here: [Ancel_BA101_User_manual.pdf](Ancel_BA101_User_manual.pdf)
 
 Official Ancel product page: [https://www.ancel.com/products/ancel-ba101](https://www.ancel.com/products/ancel-ba101)
-
+--
 ## Requirements
 
 - Python 3 installed
@@ -32,6 +32,9 @@ Example:
 <img width="462" height="542" alt="image" src="https://github.com/user-attachments/assets/11f6ae6b-88c5-4f58-aeca-ad9ca298d177" />
 
 
+## Known Bugs
+The status label doesn't properly indicate that the app is connected to the BA101 even when it is. Continue to select *Print Data* on the device, and the data will transfer.
+--
 ## Serial data format specification
 
 The data format specification was not provided by Ancel, but was manually reverse engineered. Some values might be not right.
@@ -56,6 +59,7 @@ The data format specification was not provided by Ancel, but was manually revers
 | 26 | 00 0C | 12 | Ripple (mV) |
 | 28 | 01 | LOW | Charging status<br>00: NO OUTPUT<br>01: LOW<br>02: NORMAL<br>03: HIGH |
 | 29 | FE 7F | - | Final marker (?) |
+
 
 
 
