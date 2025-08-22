@@ -1,10 +1,12 @@
-# Ancel BA101 Battery Tester serial data parser
+# Ancel BA101 Battery Tester serial data parser app
 
 The Ancel BA101 lead-acid Battery Tester is an easy to use and versatile lead-acid battery tester for car, UPS or other similar batteries. The tester has a mini-USB serial output port which can be used to log and report the measured test data. Unfortunately the software that it comes with is proprietary, closed source, runs only on Windows and it cannot be downloaded without making an account on the Ancel website.
 
-This repo proposes a platform agnostic python3 script which connects to a serial port, receives the data from the Ancel BA101 Battery Tester and displays it in the terminal so that it can be logged and/or printed as needed.
+This repo builds on ancel-tester written by SilverGreen93, which proposes a platform agnostic python3 script which connects to a serial port, receives the data from the Ancel BA101 Battery Tester and displays it in the terminal so that it can be logged and/or printed as needed. It has been included for reference.
 
-It can be run directly on both Windows and Linux.
+This app will detect active COM ports on the computer, simplifying COM port selection.
+
+It can be run directly on Windows and Linux (not tested).
 
 Read the Ancel BA101 manual here: [Ancel_BA101_User_manual.pdf](Ancel_BA101_User_manual.pdf)
 
@@ -14,44 +16,21 @@ Official Ancel product page: [https://www.ancel.com/products/ancel-ba101](https:
 
 - Python 3 installed
 - Python 3 serial library: `pip install pyserial`
+- Python 3 customtkinter library: `pip install customtkinter`
 
 ## How to use
 
 1. Connect Ancel BA101 via USB cable to PC.
-2. Open a terminal and run `./ancel_data_print.py` with serial port argumnet (e.g. `/dev/ttyUSB0` for Linux, `COM3` for Windows).
-3. The script will wait for data to be received.
-4. On the Ancel BA101 tester, go to Print Data and press Enter.
-5. The data will be displayed in the Terminal. Press Ctrl+C to close, or send new data agin until manually stopped.
+2. Execute the python script `ancel_data_print_app` and select the COM port from the combobox.
+3. Click Connect
+4. The script will wait for data to be received.
+5. On the Ancel BA101 tester, go to Print Data and press Enter.
+6. The data will be displayed in the Window. Copy the output and paste it into a text file for printing. Close the program as you would any other, or click Connect to reconnect to the BA101.
 
 Example:
 
-```
-$ ./ancel_data_print.py COM3
-Ancel BA101 Battery Tester serial data parser.
-Opening serial port COM3 at 9600 baud...
-Listening for data... Press Ctrl+C to stop.
+<img width="462" height="542" alt="image" src="https://github.com/user-attachments/assets/11f6ae6b-88c5-4f58-aeca-ad9ca298d177" />
 
-====== Battery Test ======
-Status:             GOOD BATTERY
-Voltage:            13.19V
-Charge:             100%
-Health:             100%
-Rated:              135A
-Measured:           193A
-Standard:           CA
-Internal Res:       15.82mΩ
-
-====== Cranking Test ======
-Cranking Time:      1550ms
-Cranking Voltage:   7.45V
-Cranking Status:    LOW
-
-====== Charging Test ======
-Loaded Voltage:     12.50V
-Unloaded Voltage:   14.89V
-Ripple:             15mV
-Charging Status:    LOW
-```
 
 ## Serial data format specification
 
@@ -77,3 +56,4 @@ The data format specification was not provided by Ancel, but was manually revers
 | 26 | 00 0C | 12 | Ripple (mV) |
 | 28 | 01 | LOW | Charging status<br>00: NO OUTPUT<br>01: LOW<br>02: NORMAL<br>03: HIGH |
 | 29 | FE 7F | - | Final marker (?) |
+
