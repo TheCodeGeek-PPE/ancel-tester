@@ -44,9 +44,16 @@ def button_callback():
     else:
         UpdateStatus("Listening for data...", "transparent")
         try:
-            listen_serial(port.get())
+            ThreadSerialListener(port.get())
         except SerialException as e:
             print(f"Serial error: {e}")
+
+# Start the serial listener in a separate thread
+# This keeps the GUI responsive
+def ThreadSerialListener(serial_port):
+    thread = Thread(target=listen_serial, args=(serial_port,))
+    thread.daemon = True  # Allow program to exit even if thread is running
+    thread.start()
 
 def UpdateStatus(message: str, color: str = "transparent"):
     status_label.configure(text=f"Status: {message}", fg_color=color)
