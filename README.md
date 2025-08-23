@@ -35,6 +35,7 @@ Example:
 ## Known Bugs
 - The status label doesn't properly indicate that the app is connected to the BA101 even when it is. Continue to select *Print Data* on the device, and the data will transfer.
   I think this is because the serial listener is tying things up so that the interface can't update.
+  (This may have been fixed by starting the serial listener in it's own thread, I will test Monday, August 25th 2025)
 
 ## Serial data format specification
 
