@@ -7,8 +7,7 @@ from sys import exit
 import customtkinter as ctk
 from threading import Thread    # For threading the serial listener
 
-# TODO: Implement threading to keep the GUI responsive during serial listening
-
+# TODO: Code Cleanup
 
 # Configuration
 BAUD_RATE = 9600
