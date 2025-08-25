@@ -22,20 +22,17 @@ Official Ancel product page: [https://www.ancel.com/products/ancel-ba101](https:
 
 1. Connect Ancel BA101 via USB cable to PC.
 2. Execute the Python script `ancel_data_print_app.py` and select the COM port from the combobox.
-3. Click Connect
-4. The script will wait for data to be received.
-5. On the Ancel BA101 tester, go to Print Data and press Enter.
-6. The data will be displayed in the Window. Copy the output and paste it into a text file for printing. Close the program as you would any other, or click Connect to reconnect to the BA101.
+3. Click Connect. The script will wait for data to be received.
+4. On the Ancel BA101 tester, go to Print Data and press Enter.
+5. The most recent battery test data will be transmit via serial and displayed in the Window. Copy the output and paste it into a text file for printing. Close the program as you would any other, or click Connect to reconnect to the BA101.
 
 Example:
 
 <img width="462" height="542" alt="image" src="https://github.com/user-attachments/assets/11f6ae6b-88c5-4f58-aeca-ad9ca298d177" />
 
-
-## Known Bugs
-- The status label doesn't properly indicate that the app is connected to the BA101 even when it is. Continue to select *Print Data* on the device, and the data will transfer.
-  I think this is because the serial listener is tying things up so that the interface can't update.
-  (This may have been fixed by starting the serial listener in it's own thread, I will test Monday, August 25th 2025)
+## Planned Improvements
+- Print Function - Print directly from within the app.
+- Data Selection - Select which data to collect (and display).
 
 ## Serial data format specification
 
