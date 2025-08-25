@@ -31,6 +31,7 @@ Example:
 <img width="462" height="542" alt="image" src="https://github.com/user-attachments/assets/b3149463-cfe9-425e-af20-ba46d73d3973" />
 
 Printer Selection:
+
 <img width="352" height="212" alt="image" src="https://github.com/user-attachments/assets/983a9264-0d62-465c-b59c-a867829275b3" />
 
 
@@ -61,6 +62,7 @@ The data format specification was not provided by Ancel, but was manually revers
 | 26 | 00 0C | 12 | Ripple (mV) |
 | 28 | 01 | LOW | Charging status<br>00: NO OUTPUT<br>01: LOW<br>02: NORMAL<br>03: HIGH |
 | 29 | FE 7F | - | Final marker (?) |
+
 
 
 
