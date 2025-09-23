@@ -1,4 +1,4 @@
-# Ancel BA101 Battery Tester serial data parser app
+# Ancel Battery Analyzer Connection Utility Script (ABACUS)
 
 The Ancel BA101 lead-acid Battery Tester is an easy to use and versatile lead-acid battery tester for car, UPS or other similar batteries. The tester has a mini-USB serial output port which can be used to log and report the measured test data. Unfortunately the software that it comes with is proprietary, closed source, runs only on Windows and it cannot be downloaded without making an account on the Ancel website.
 
@@ -58,6 +58,7 @@ The data format specification was not provided by Ancel, but was manually revers
 | 26 | 00 0C | 12 | Ripple (mV) |
 | 28 | 01 | LOW | Charging status<br>00: NO OUTPUT<br>01: LOW<br>02: NORMAL<br>03: HIGH |
 | 29 | FE 7F | - | Final marker (?) |
+
 
 
 
