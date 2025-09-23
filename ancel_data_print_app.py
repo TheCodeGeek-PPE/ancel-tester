@@ -6,6 +6,8 @@ from argparse import ArgumentParser
 from sys import exit
 import customtkinter as ctk
 from threading import Thread    # For threading the serial listener
+import os
+import tempfile
 
 # TODO: Code Cleanup
 
@@ -34,8 +36,8 @@ def CenterWindowToDisplay(Screen: ctk, width: int, height: int, scale_factor: fl
     y = int(((screen_height/2) - (height/1.5)) * scale_factor)
     return f"{width}x{height}+{x}+{y}"
 
-# Handle the button press
-def button_callback():
+# Handle the connect button press
+def ConnectButtonCallback():
     # If nothing is connected show error message
     if port.get() == "Reconnect BA101":
         UpdateStatus("Error - Please connect the BA101 and restart the app.", "red")
@@ -43,19 +45,45 @@ def button_callback():
     else:
         UpdateStatus("Listening for data...", "transparent")
         try:
-            ThreadSerialListener(port.get())
+            ThreadedSerialListener(port.get())
         except SerialException as e:
             print(f"Serial error: {e}")
 
 # Start the serial listener in a separate thread
 # This keeps the GUI responsive
-def ThreadSerialListener(serial_port):
+def ThreadedSerialListener(serial_port):
     thread = Thread(target=listen_serial, args=(serial_port,))
     thread.daemon = True  # Allow program to exit even if thread is running
     thread.start()
 
 def UpdateStatus(message: str, color: str = "transparent"):
     status_label.configure(text=f"Status: {message}", fg_color=color)
+
+def print_text_content(text_widget):
+    content = text_widget.get("1.0", ctk.END)  # Get all text from the Text widget
+    if content.strip():  # Check if there's content to print
+        try:
+            # Create a temporary file to hold the content
+            with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", delete=False, suffix=".txt") as temp_file:
+                temp_file.write(content)
+                temp_file_path = temp_file.name
+
+            # Use os.startfile to print the temporary file (Windows specific)
+            os.startfile(temp_file_path, "print")
+            print(f"Printing initiated for: {temp_file_path}")
+        except Exception as e:
+            print(f"Error during printing: {e}")
+        finally:
+            sleep(5)  # Wait a bit to ensure the print job is sent
+            # Clean up the temporary file
+            if 'temp_file_path' in locals() and os.path.exists(temp_file_path):
+                os.remove(temp_file_path)
+    else:
+        print("No content to print.")
+
+def PrintButtonCallback():
+    print_text_content(display)
+    UpdateStatus("Print command sent to printer.", "green")
 
 # Create the main window
 app = ctk.CTk()
@@ -66,12 +94,14 @@ port_label = ctk.CTkLabel(app, text="Serial Port:")
 port_label.grid(row=0, column=0, padx=20, pady=20, sticky="e")
 port = ctk.CTkComboBox(app, values=CollectComports(), width=140)
 port.grid(row=0, column=1, padx=20, pady=20, sticky="w")
-button = ctk.CTkButton(app, text="Connect", command=button_callback)
+button = ctk.CTkButton(app, text="Connect", command=ConnectButtonCallback)
 button.grid(row=0, column=2, padx=20, pady=20, sticky="w")
 display = ctk.CTkTextbox(app, width=400, height=400)
 display.grid(row=1, column=0, padx=20, pady=0, sticky="nsew", columnspan=3)
 status_label = ctk.CTkLabel(app, text="Status: Not Connected", fg_color="transparent")
-status_label.grid(row=2, column=0, padx=20, pady=5, sticky="esw", columnspan=3)
+status_label.grid(row=2, column=0, padx=20, pady=5, sticky="esw", columnspan=2)
+print_button = ctk.CTkButton(app, text="Print", command=PrintButtonCallback)
+print_button.grid(row=2, column=2, padx=20, pady=5, sticky="ew")
 
 def parse_battery_data(data):
     if len(data) < BYTE_SEQUENCE_LENGTH:
